@@ -21,7 +21,8 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProductById(int id){
             var product =await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            return Ok(product);
+            if(product == null) return NotFound();
+            return product;
         }
     }
 }
