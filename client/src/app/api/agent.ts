@@ -2,11 +2,13 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 axios.defaults.baseURL = "http://localhost:5034/api/";
 const responseBody = (response: AxiosResponse) => response.data;
 // interceptors : allows to intervene (can thiệp) in the process  of sending and receiving HTTP request before and after they are sent
 axios.interceptors.response.use(
-  (res) => {
+  async (res) => {
+    await sleep();
     return res;
   },
   (error: AxiosError) => {
