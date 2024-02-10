@@ -4,6 +4,7 @@ import { router } from "../router/Routes";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 axios.defaults.baseURL = "http://localhost:5034/api/";
+axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
 // interceptors : allows to intervene (can thiệp) in the process  of sending and receiving HTTP request before and after they are sent
 axios.interceptors.response.use(
@@ -60,8 +61,16 @@ const TestError = {
   get500Error: () => request.get("buggy/server-error"),
   getValidationError: () => request.get("buggy/validation-error"),
 };
+const Basket = {
+  get: () => request.get("basket"),
+  addItem: (productId: number, quantity = 1) =>
+    request.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+  removeItem: (productId: number, quantity = 1) =>
+    request.delete(`basket?productId=${productId}&quantiy=${quantity}`),
+};
 const agent = {
   Catalog,
   TestError,
+  Basket,
 };
 export default agent;
